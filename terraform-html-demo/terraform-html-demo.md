@@ -223,7 +223,7 @@ Puedes sobrescribir el valor por defecto de varias formas:
 Crea el archivo:
 
 ```hcl
-saludo = "¡Bienvenido, Brayan y estudiantes!"
+saludo = "¡Bienvenidos estudiantes!"
 ```
 
 **B. O usando la línea de comandos:**

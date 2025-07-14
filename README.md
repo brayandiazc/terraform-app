@@ -133,7 +133,7 @@ resource "aws_instance" "ejemplo" {
 | ------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------ |
 | `provider`          | Configura el proveedor (cloud/local/etc)   | `hcl<br>provider "aws" { region = "us-east-1" }<br>`                                 |
 | `resource`          | Declara un recurso a gestionar             | `hcl<br>resource "local_file" "ejemplo" { filename = "x.txt" content = "Hola" }<br>` |
-| `variable`          | Define una variable reutilizable           | `hcl<br>variable "nombre" { type = string default = "Brayan" }<br>`                  |
+| `variable`          | Define una variable reutilizable           | `hcl<br>variable "nombre" { type = string default = "Estudiante" }<br>`              |
 | `output`            | Expone un valor de salida                  | `hcl<br>output "saludo" { value = var.nombre }<br>`                                  |
 | `data`              | Consulta información externa (data source) | `hcl<br>data "aws_ami" "ubuntu" { most_recent = true ... }<br>`                      |
 | `module`            | Usa un módulo reutilizable                 | `hcl<br>module "vpc" { source = "terraform-aws-modules/vpc/aws" ... }<br>`           |
