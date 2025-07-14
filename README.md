@@ -71,7 +71,7 @@ Tú describes el “estado deseado” de la infraestructura y Terraform se encar
 5. **Destroy (Destrucción):**
    Elimina toda la infraestructura creada.
 
-## Diagrama Mermaid de las etapas de Terraform
+## Diagrama de las etapas de Terraform
 
 ```mermaid
 graph LR
@@ -82,6 +82,27 @@ graph LR
     E -- Sí --> F[terraform destroy]
     E -- No --> G[Infra lista]
 ```
+
+## Tabla de comandos clave de Terraform
+
+| Comando               | Descripción breve                                                   | Uso principal                                          |
+| --------------------- | ------------------------------------------------------------------- | ------------------------------------------------------ |
+| `terraform init`      | Inicializa el directorio de trabajo y descarga providers y módulos. | **Siempre primero**, preparar el entorno.              |
+| `terraform validate`  | Valida que la configuración `.tf` sea sintácticamente correcta.     | Revisar errores antes de ejecutar cambios.             |
+| `terraform fmt`       | Formatea los archivos `.tf` con estilo estándar.                    | Ordenar y limpiar el código.                           |
+| `terraform plan`      | Muestra los cambios que Terraform va a realizar (previo a aplicar). | Verificar antes de aplicar cambios.                    |
+| `terraform apply`     | Aplica los cambios y crea/actualiza los recursos definidos.         | Crear, modificar o actualizar infraestructura.         |
+| `terraform destroy`   | Elimina todos los recursos definidos en la configuración.           | **Destruir** recursos de forma controlada.             |
+| `terraform output`    | Muestra los valores de salida definidos en la configuración.        | Ver resultados o endpoints generados.                  |
+| `terraform state`     | Permite inspeccionar o modificar el estado de los recursos.         | Diagnóstico avanzado o reparaciones.                   |
+| `terraform show`      | Muestra el estado actual o un plan de ejecución en formato legible. | Ver resumen del estado real.                           |
+| `terraform providers` | Lista los proveedores usados y sus versiones.                       | Auditoría y troubleshooting.                           |
+| `terraform import`    | Añade recursos existentes fuera de Terraform al estado.             | Adoptar recursos creados manualmente.                  |
+| `terraform taint`     | Marca un recurso para ser destruido y recreado en el próximo apply. | Forzar recreación.                                     |
+| `terraform untaint`   | Elimina el “taint” de un recurso.                                   | Quitar marca de recreación.                            |
+| `terraform graph`     | Genera un gráfico de dependencias de recursos en formato DOT.       | Visualización avanzada (usando herramientas externas). |
+| `terraform version`   | Muestra la versión de Terraform instalada.                          | Verificar compatibilidad.                              |
+| `terraform help`      | Muestra ayuda general o de un comando específico.                   | Consulta rápida sobre comandos.                        |
 
 ## Distribución de la sintaxis: ejemplo sencillo
 
@@ -105,27 +126,6 @@ resource "aws_instance" "ejemplo" {
 - `provider "aws"`: Configura el proveedor (qué nube usar).
 - `resource "aws_instance" "ejemplo"`: Crea un recurso tipo EC2, con los parámetros indicados.
 - Los valores se pueden parametrizar, interpolar, y combinar con variables y outputs.
-
-## Tabla de comandos clave de Terraform
-
-| Comando               | Descripción breve                                                   | Uso principal                                          |
-| --------------------- | ------------------------------------------------------------------- | ------------------------------------------------------ |
-| `terraform init`      | Inicializa el directorio de trabajo y descarga providers y módulos. | **Siempre primero**, preparar el entorno.              |
-| `terraform validate`  | Valida que la configuración `.tf` sea sintácticamente correcta.     | Revisar errores antes de ejecutar cambios.             |
-| `terraform fmt`       | Formatea los archivos `.tf` con estilo estándar.                    | Ordenar y limpiar el código.                           |
-| `terraform plan`      | Muestra los cambios que Terraform va a realizar (previo a aplicar). | Verificar antes de aplicar cambios.                    |
-| `terraform apply`     | Aplica los cambios y crea/actualiza los recursos definidos.         | Crear, modificar o actualizar infraestructura.         |
-| `terraform destroy`   | Elimina todos los recursos definidos en la configuración.           | **Destruir** recursos de forma controlada.             |
-| `terraform output`    | Muestra los valores de salida definidos en la configuración.        | Ver resultados o endpoints generados.                  |
-| `terraform state`     | Permite inspeccionar o modificar el estado de los recursos.         | Diagnóstico avanzado o reparaciones.                   |
-| `terraform show`      | Muestra el estado actual o un plan de ejecución en formato legible. | Ver resumen del estado real.                           |
-| `terraform providers` | Lista los proveedores usados y sus versiones.                       | Auditoría y troubleshooting.                           |
-| `terraform import`    | Añade recursos existentes fuera de Terraform al estado.             | Adoptar recursos creados manualmente.                  |
-| `terraform taint`     | Marca un recurso para ser destruido y recreado en el próximo apply. | Forzar recreación.                                     |
-| `terraform untaint`   | Elimina el “taint” de un recurso.                                   | Quitar marca de recreación.                            |
-| `terraform graph`     | Genera un gráfico de dependencias de recursos en formato DOT.       | Visualización avanzada (usando herramientas externas). |
-| `terraform version`   | Muestra la versión de Terraform instalada.                          | Verificar compatibilidad.                              |
-| `terraform help`      | Muestra ayuda general o de un comando específico.                   | Consulta rápida sobre comandos.                        |
 
 ## Tabla de sintaxis esencial de Terraform
 
