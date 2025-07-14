@@ -156,7 +156,7 @@ output "ec2_ssh_connection" {
 }
 ```
 
-## 4. `terraform.tfvars`\*\* (ejempl
+## 4. `terraform.tfvars`
 
 ```hcl
 key_name    = "TU_KEY_NAME"
