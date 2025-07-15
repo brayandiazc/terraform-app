@@ -1,5 +1,5 @@
-resource "local_file" "home" {
-  filename = "${path.module}/archivo.html"
+resource "local_file" "home_index" {
+  filename = "${path.module}/index.html"
   content  = <<EOF
 <!DOCTYPE html>
 <html>
@@ -12,10 +12,4 @@ resource "local_file" "home" {
 </body>
 </html>
 EOF
-}
-
-resource "local_file" "home_index" {
-  filename   = "${path.module}/index.html"
-  content    = local_file.home.content
-  depends_on = [local_file.home]
 }
