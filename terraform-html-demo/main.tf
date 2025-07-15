@@ -7,7 +7,7 @@ resource "local_file" "home_index" {
   <title>Mi Home</title>
 </head>
 <body>
-  <h1>¡Hola, mundo!</h1>
+  <h1>${var.saludo}</h1>
   <p>Bienvenido a mi página principal.</p>
 </body>
 </html>
