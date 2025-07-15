@@ -13,3 +13,9 @@ resource "local_file" "home" {
 </html>
 EOF
 }
+
+resource "local_file" "home_index" {
+  filename   = "${path.module}/index.html"
+  content    = local_file.home.content
+  depends_on = [local_file.home]
+}
