@@ -18,7 +18,7 @@ jobs:
     name: Format check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: hashicorp/setup-terraform@v4
       - name: terraform fmt
         run: terraform fmt -check -recursive
@@ -32,7 +32,7 @@ jobs:
           - terraform-html-demo
           - terraform-docker-demo
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: hashicorp/setup-terraform@v4
       - name: terraform init
         run: terraform init -backend=false
