@@ -1,0 +1,42 @@
+# ==============================================================================
+# CI — Validación de la configuración de Terraform.
+# Verifica formato (terraform fmt) y sintaxis (terraform validate) en cada
+# demo que tenga archivos .tf. No requiere credenciales de nube: `init` solo
+# descarga los providers y `validate` no contacta a ningún proveedor.
+# ==============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  fmt:
+    name: Format check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - name: terraform fmt
+        run: terraform fmt -check -recursive
+
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir:
+          - terraform-html-demo
+          - terraform-docker-demo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - name: terraform init
+        run: terraform init -backend=false
+        working-directory: ${{ matrix.dir }}
+      - name: terraform validate
+        run: terraform validate
+        working-directory: ${{ matrix.dir }}

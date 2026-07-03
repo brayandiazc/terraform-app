@@ -1,77 +1,42 @@
-# ¿Qué es Terraform?
+# terraform-app
 
-Terraform es una herramienta de **infraestructura como código** (IaC) desarrollada por HashiCorp. Permite definir, provisionar y gestionar infraestructura en la nube (y on-premise) usando archivos de configuración legibles y versionables.
+Guía práctica y progresiva para aprender **Terraform** (infraestructura como
+código) en español, con demos ejecutables y documentación de referencia.
 
-**En una frase:**
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Terraform](https://img.shields.io/badge/terraform-%3E%3D1.0-623CE4)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-> Terraform te permite describir la infraestructura como si fuera código, para crear y administrar recursos de manera automatizada y repetible.
+## Tabla de Contenidos
 
-## Modelo de negocio, valor y licencia
+- [Descripción](#descripción)
+- [Características](#características)
+- [Requisitos Previos](#requisitos-previos)
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Comandos de Terraform](#comandos-de-terraform)
+- [Arquitectura](#arquitectura)
+- [Stack Tecnológico](#stack-tecnológico)
+- [Documentación](#documentación)
+- [Contribución](#contribución)
+- [Roadmap](#roadmap)
+- [Versionado](#versionado)
+- [Autores](#autores)
+- [Licencia](#licencia)
+- [Apóyanos](#apóyanos)
+- [Agradecimientos](#agradecimientos)
 
-- **Licencia:**
-  Open Source bajo licencia MPL 2.0 (Mozilla Public License).
-  Hay versiones comerciales (Terraform Cloud, Terraform Enterprise) con más features empresariales.
+## Descripción
 
-- **Modelo de negocio:**
+`terraform-app` es un repositorio educativo que enseña Terraform desde lo más
+simple (crear un archivo local) hasta infraestructura en la nube (EC2 + S3 + RDS
+en AWS). Cada ejercicio vive en su propia carpeta con su configuración y su
+estado aislados, y la teoría se documenta aparte en [`docs/`](docs/README.md).
 
-  - Gratuito: Terraform CLI (local)
-  - SaaS: Terraform Cloud (colaboración, estado remoto, control de acceso, etc.)
-  - Enterprise: Para grandes empresas, integración con sistemas corporativos y soporte.
+Si es tu primer contacto con Terraform, empieza por
+[`docs/reference/terraform-basics.md`](docs/reference/terraform-basics.md).
 
-- **Valor diferencial:**
-
-  - Independencia de proveedores (multi-cloud)
-  - Declarativo y reproducible
-  - Gestión del ciclo de vida de la infraestructura (crea, actualiza, destruye)
-  - Comunidad gigante y cientos de _providers_.
-
-## ¿Cómo nació Terraform?
-
-- **Creado por HashiCorp** en 2014.
-- Surgió como respuesta a la necesidad de gestionar infraestructura en múltiples nubes desde un solo lugar, con enfoque en IaC (cuando ya existían Chef, Puppet y Ansible, pero orientados más a configuración que a infraestructura base).
-- HashiCorp ya tenía herramientas como Vagrant (máquinas virtuales locales), pero Terraform fue el salto a la gestión cloud.
-
-## ¿Qué otros servicios ofrece HashiCorp? ¿Qué abarca el ecosistema de Terraform?
-
-HashiCorp es una fábrica de herramientas para DevOps e infraestructura, no solo Terraform. Algunas relevantes:
-
-- **Vagrant:** Provisión de entornos de desarrollo locales.
-- **Consul:** Descubrimiento y configuración de servicios.
-- **Vault:** Gestión de secretos y cifrado.
-- **Nomad:** Orquestación de aplicaciones.
-- **Packer:** Creación de imágenes de máquinas.
-- **Boundary:** Acceso seguro a infraestructura.
-
-**Terraform**, en particular, soporta:
-
-- AWS, Azure, GCP, DigitalOcean, VMware, Alibaba, Oracle Cloud y más.
-- Proveedores de SaaS: GitHub, Cloudflare, Datadog, etc.
-
-## ¿Cómo funciona Terraform?
-
-Terraform sigue un modelo **declarativo**:
-Tú describes el “estado deseado” de la infraestructura y Terraform se encarga de alcanzar ese estado, ejecutando los cambios necesarios.
-
-**Componentes clave:**
-
-- **Providers:** Plugins para interactuar con APIs de servicios (AWS, Azure, GCP, etc.).
-- **Resources:** Objetos que quieres crear, como instancias EC2, buckets S3, etc.
-- **Modules:** Agrupaciones reutilizables de recursos.
-
-## Etapas del ciclo de vida en Terraform
-
-1. **Write (Escritura):**
-   Escribes archivos `.tf` con la infraestructura deseada.
-2. **Init (Inicialización):**
-   Inicializas el directorio de trabajo, descargas providers, módulos, etc.
-3. **Plan (Planificación):**
-   Terraform muestra qué acciones realizará para lograr el estado deseado (sin aplicar cambios aún).
-4. **Apply (Aplicación):**
-   Ejecuta los cambios en la infraestructura real.
-5. **Destroy (Destrucción):**
-   Elimina toda la infraestructura creada.
-
-## Diagrama de las etapas de Terraform
+### Ciclo de vida de Terraform
 
 ```mermaid
 graph LR
@@ -83,132 +48,153 @@ graph LR
     E -- No --> G[Infra lista]
 ```
 
-## Tabla de comandos clave de Terraform
+## Características
 
-| Comando               | Descripción breve                                                   | Uso principal                                          |
-| --------------------- | ------------------------------------------------------------------- | ------------------------------------------------------ |
-| `terraform init`      | Inicializa el directorio de trabajo y descarga providers y módulos. | **Siempre primero**, preparar el entorno.              |
-| `terraform validate`  | Valida que la configuración `.tf` sea sintácticamente correcta.     | Revisar errores antes de ejecutar cambios.             |
-| `terraform fmt`       | Formatea los archivos `.tf` con estilo estándar.                    | Ordenar y limpiar el código.                           |
-| `terraform plan`      | Muestra los cambios que Terraform va a realizar (previo a aplicar). | Verificar antes de aplicar cambios.                    |
-| `terraform apply`     | Aplica los cambios y crea/actualiza los recursos definidos.         | Crear, modificar o actualizar infraestructura.         |
-| `terraform destroy`   | Elimina todos los recursos definidos en la configuración.           | **Destruir** recursos de forma controlada.             |
-| `terraform output`    | Muestra los valores de salida definidos en la configuración.        | Ver resultados o endpoints generados.                  |
-| `terraform state`     | Permite inspeccionar o modificar el estado de los recursos.         | Diagnóstico avanzado o reparaciones.                   |
-| `terraform show`      | Muestra el estado actual o un plan de ejecución en formato legible. | Ver resumen del estado real.                           |
-| `terraform providers` | Lista los proveedores usados y sus versiones.                       | Auditoría y troubleshooting.                           |
-| `terraform import`    | Añade recursos existentes fuera de Terraform al estado.             | Adoptar recursos creados manualmente.                  |
-| `terraform taint`     | Marca un recurso para ser destruido y recreado en el próximo apply. | Forzar recreación.                                     |
-| `terraform untaint`   | Elimina el “taint” de un recurso.                                   | Quitar marca de recreación.                            |
-| `terraform graph`     | Genera un gráfico de dependencias de recursos en formato DOT.       | Visualización avanzada (usando herramientas externas). |
-| `terraform version`   | Muestra la versión de Terraform instalada.                          | Verificar compatibilidad.                              |
-| `terraform help`      | Muestra ayuda general o de un comando específico.                   | Consulta rápida sobre comandos.                        |
+- ✅ Demo local sin nube (`terraform-html-demo`, provider `local`).
+- ✅ Demo de contenedores (`terraform-docker-demo`, provider `docker`).
+- ✅ Guía de AWS (`terraform-aws-demo`, EC2 + S3 + RDS).
+- ✅ Referencia conceptual: conceptos, comandos, sintaxis HCL y archivos de estado.
+- ✅ Validación automática de formato y sintaxis en CI.
+- 📋 Estado remoto y módulos reutilizables (ver [Roadmap](#roadmap)).
 
-## Distribución de la sintaxis: ejemplo sencillo
+## Requisitos Previos
 
-La sintaxis de Terraform se llama **HCL (HashiCorp Configuration Language)**. Es sencilla y legible, tipo JSON pero más flexible.
+- **Terraform CLI**: v1.0.0 o superior — `terraform -v`
+- **Git**: recomendado
+- **Docker**: solo para `terraform-docker-demo` — `docker version`
+- **Cuenta AWS + AWS CLI**: solo para `terraform-aws-demo`
 
-**Ejemplo: Crear una instancia EC2 en AWS**
-
-```hcl
-provider "aws" {
-  region = "us-east-1"
-}
-
-resource "aws_instance" "ejemplo" {
-  ami           = "ami-0c6ebb5b9bce4ba15"
-  instance_type = "t2.micro"
-}
-```
-
-**Explicación:**
-
-- `provider "aws"`: Configura el proveedor (qué nube usar).
-- `resource "aws_instance" "ejemplo"`: Crea un recurso tipo EC2, con los parámetros indicados.
-- Los valores se pueden parametrizar, interpolar, y combinar con variables y outputs.
-
-## Tabla de sintaxis esencial de Terraform
-
-| Bloque/Sintaxis     | ¿Para qué sirve?                           | Ejemplo mínimo                                                                       |
-| ------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `provider`          | Configura el proveedor (cloud/local/etc)   | `hcl<br>provider "aws" { region = "us-east-1" }<br>`                                 |
-| `resource`          | Declara un recurso a gestionar             | `hcl<br>resource "local_file" "ejemplo" { filename = "x.txt" content = "Hola" }<br>` |
-| `variable`          | Define una variable reutilizable           | `hcl<br>variable "nombre" { type = string default = "Estudiante" }<br>`              |
-| `output`            | Expone un valor de salida                  | `hcl<br>output "saludo" { value = var.nombre }<br>`                                  |
-| `data`              | Consulta información externa (data source) | `hcl<br>data "aws_ami" "ubuntu" { most_recent = true ... }<br>`                      |
-| `module`            | Usa un módulo reutilizable                 | `hcl<br>module "vpc" { source = "terraform-aws-modules/vpc/aws" ... }<br>`           |
-| `locals`            | Define valores locales calculados          | `hcl<br>locals { mensaje = "Hola, ${var.nombre}" }<br>`                              |
-| `depends_on`        | Forzar dependencias entre recursos         | `hcl<br>resource "x" "a" { ... depends_on = [resource.y.b] }<br>`                    |
-| `terraform`         | Configuración de backend y versiones       | `hcl<br>terraform { required_version = ">= 1.0.0" }<br>`                             |
-| Interpolación `${}` | Insertar variables o expresiones           | `hcl<br>content = "Hola, ${var.nombre}"<br>`                                         |
-| Comentario          | Documentar el código                       | `hcl<br># Esto es un comentario<br>// También válido<br>`                            |
-
-## Archivos generados por Terraform y su función
-
-### 1. `terraform.tfstate`
-
-- **¿Qué es?**
-  Es el archivo **más importante** de Terraform.
-  Guarda el **estado actual** de la infraestructura gestionada por Terraform.
-- **¿Para qué sirve?**
-  Permite que Terraform sepa qué recursos existen, sus atributos, relaciones y cambios.
-  Así puede comparar el "deseado" (definido en `.tf`) vs el "real" (en la nube/local).
-- **¿Qué contiene?**
-  Un JSON con información detallada de todos los recursos creados, IDs, direcciones, metadatos, etc.
-- **¿Qué debes saber?**
-  **¡Nunca lo edites a mano!** Si lo pierdes, Terraform "olvida" la infraestructura y podrías tener problemas de drift (desincronización).
-  En proyectos serios, se almacena de forma remota (ejemplo: en S3 para trabajo en equipo).
-
-### 2. `terraform.tfstate.backup`
-
-- **¿Qué es?**
-  Es una **copia de seguridad** automática del estado anterior cada vez que Terraform modifica el estado.
-- **¿Para qué sirve?**
-  Si algo sale mal, puedes recuperar el estado previo y evitar pérdida o corrupción.
-- **¿Qué contiene?**
-  Básicamente, el contenido anterior del archivo `terraform.tfstate`.
-- **¿Qué debes saber?**
-  Normalmente se ignora (se pone en `.gitignore`), salvo que debas restaurar el estado.
-
-### 3. `.terraform/` (directorio oculto)
-
-- **¿Qué es?**
-  Un directorio que contiene **los plugins descargados** (providers) y archivos internos de control.
-- **¿Para qué sirve?**
-  Almacena los binarios y metadatos de los providers (ej: AWS, Docker, local, etc), y archivos de lock.
-- **¿Qué contiene?**
-
-  - Subcarpetas con los providers y módulos.
-  - Archivos internos como `providers`, `modules.json`.
-
-- **¿Qué debes saber?**
-  No lo toques ni lo subas al repo. Si tienes problemas con providers, puedes borrar este directorio y correr `terraform init` de nuevo.
-
-### 4. `.terraform.lock.hcl`
-
-- **¿Qué es?**
-  Archivo de **lock** de versiones de providers (como un package-lock).
-- **¿Para qué sirve?**
-  Fija la versión de los providers usados para garantizar que todos trabajen con la misma versión.
-- **¿Qué contiene?**
-  Nombres, versiones y hashes de los providers usados en el proyecto.
-- **¿Qué debes saber?**
-  Es bueno **sí subirlo** al repo (control de versiones).
-
-## ¿Qué archivos nunca subir a Git?
-
-- `terraform.tfstate`
-- `terraform.tfstate.backup`
-- `.terraform/`
-
-**Solo sube:**
-
-- Tus archivos `.tf`
-- `.terraform.lock.hcl`
-
-Puedes usar este `.gitignore`:
+## Instalación
 
 ```bash
-.terraform*.tfsta
-*.tfstate.backup
+git clone https://github.com/brayandiazc/terraform-app.git
+cd terraform-app
 ```
+
+No hay dependencias que instalar a nivel de repositorio: cada demo descarga sus
+_providers_ con `terraform init`.
+
+## Uso
+
+Cada demo se ejecuta desde su propia carpeta. El flujo es siempre el mismo:
+`init → plan → apply` y, al terminar, `destroy`.
+
+### 1. `terraform-html-demo` — archivo local (la más simple)
+
+```bash
+cd terraform-html-demo
+terraform init
+terraform plan
+terraform apply     # confirma con "yes" → genera index.html
+terraform destroy   # limpia
+```
+
+Guía paso a paso: [`terraform-html-demo/terraform-html-demo.md`](terraform-html-demo/terraform-html-demo.md).
+
+### 2. `terraform-docker-demo` — contenedor Nginx (requiere Docker)
+
+```bash
+cd terraform-docker-demo
+terraform init
+terraform apply     # levanta el contenedor → http://localhost:8080
+terraform destroy
+```
+
+Guía paso a paso: [`terraform-docker-demo/terraform-docker-demo.md`](terraform-docker-demo/terraform-docker-demo.md).
+
+### 3. `terraform-aws-demo` — EC2 + S3 + RDS (requiere cuenta AWS)
+
+Guía de referencia (⚠️ genera costos reales en AWS):
+[`terraform-aws-demo/terraform-aws-demo.md`](terraform-aws-demo/terraform-aws-demo.md).
+
+> El ciclo de vida detallado (reglas, rollback y verificación) está en
+> [`docs/conventions/deploy.md`](docs/conventions/deploy.md).
+
+## Comandos de Terraform
+
+```bash
+terraform init       # Inicializa y descarga providers
+terraform fmt        # Formatea el HCL
+terraform validate   # Valida la sintaxis
+terraform plan       # Muestra los cambios sin aplicarlos
+terraform apply      # Aplica los cambios
+terraform destroy    # Elimina los recursos
+```
+
+Tabla completa en [`docs/reference/commands.md`](docs/reference/commands.md).
+
+## Arquitectura
+
+Cada ejercicio es independiente y mantiene su propio estado. Detalle en
+[`docs/architecture/architecture.md`](docs/architecture/architecture.md).
+
+## Stack Tecnológico
+
+Terraform CLI (>= 1.0) + providers `local`, `docker` y `aws`. Inventario completo
+con versiones en [`docs/architecture/stack.md`](docs/architecture/stack.md).
+
+## Documentación
+
+Toda la documentación vive en [`docs/`](docs/README.md):
+
+| Documento                                                            | Responde a                              |
+| ------------------------------------------------------------------- | --------------------------------------- |
+| [`docs/reference/`](docs/reference/README.md)                       | ¿Qué es Terraform y cómo se usa?        |
+| [`docs/architecture/architecture.md`](docs/architecture/architecture.md) | ¿Cómo está organizado el repo?     |
+| [`docs/architecture/stack.md`](docs/architecture/stack.md)          | ¿Con qué versiones y providers?         |
+| [`docs/conventions/`](docs/conventions/README.md)                   | ¿Cómo trabajamos en este repo?          |
+| [`docs/decisions/`](docs/decisions/README.md)                       | ¿Por qué tomamos cada decisión?         |
+| [`docs/product/roadmap.md`](docs/product/roadmap.md)                | ¿Hacia dónde va?                        |
+| [`docs/glossary.md`](docs/glossary.md)                              | ¿Qué significa cada término?            |
+
+## Contribución
+
+Lee la [Guía de Contribución](CONTRIBUTING.md) para conocer el flujo de trabajo
+(Git Flow), el formato de commits (Conventional Commits) y el proceso de Pull
+Requests. Antes de abrir un PR, ejecuta:
+
+```bash
+terraform fmt -recursive
+terraform validate
+```
+
+## Roadmap
+
+Visión y próximos pasos en [`docs/product/roadmap.md`](docs/product/roadmap.md).
+
+## Versionado
+
+Usamos [Git](https://git-scm.com) para el control de versiones y seguimos
+[Semantic Versioning](https://semver.org/). Consulta las
+[etiquetas](https://github.com/brayandiazc/terraform-app/tags) para ver las
+versiones disponibles y el [CHANGELOG](CHANGELOG.md).
+
+## Autores
+
+- **Brayan Diaz C** — _Trabajo inicial_ — [@brayandiazc](https://github.com/brayandiazc)
+
+Consulta también la lista de
+[contribuidores](https://github.com/brayandiazc/terraform-app/contributors).
+
+## Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE).
+
+## Apóyanos
+
+Si este proyecto te resulta útil y quieres apoyar su desarrollo:
+
+- [GitHub Sponsors](https://github.com/sponsors/brayandiazc)
+
+## Agradecimientos
+
+Gracias a quienes contribuyen a este proyecto. Si encuentras valor en él, puedes:
+
+- Compartir el proyecto 📤
+- Invitar un café ☕
+- Abrir un issue o PR 🙌
+- Dejar tu agradecimiento con un comentario 💬
+
+---
+
+⌨️ con ❤️ por [@brayandiazc](https://github.com/brayandiazc)

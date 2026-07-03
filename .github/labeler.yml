@@ -1,0 +1,39 @@
+# Auto-etiquetado de Pull Requests según los archivos modificados.
+# Reglas ajustadas a un repositorio de Terraform + documentación.
+
+documentation:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.md"
+      - "docs/**/*"
+      - ".github/ISSUE_TEMPLATE/**/*"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+
+terraform:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.tf"
+      - "**/*.tfvars"
+      - "**/.terraform.lock.hcl"
+
+config:
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".editorconfig"
+      - ".gitignore"
+
+ci-cd:
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".github/workflows/**/*"
+      - ".github/dependabot.yml"
+
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/.terraform.lock.hcl"
+
+github:
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".github/**/*"

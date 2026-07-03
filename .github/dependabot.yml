@@ -1,0 +1,51 @@
+# ==============================================================================
+# Configuración de Dependabot
+# ==============================================================================
+# Dependabot revisa tus dependencias y abre PRs para actualizarlas.
+# Documentación: https://docs.github.com/code-security/dependabot/dependabot-version-updates
+#
+# AJUSTA los `package-ecosystem` a los que use tu proyecto. Abajo se incluyen
+# github-actions (casi siempre útil) y un ejemplo comentado por ecosistema.
+# ==============================================================================
+
+version: 2
+
+updates:
+  # GitHub Actions usadas en los workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "ci-cd"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # Providers de Terraform en cada demo con archivos .tf
+  - package-ecosystem: "terraform"
+    directory: "/terraform-html-demo"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "terraform"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  - package-ecosystem: "terraform"
+    directory: "/terraform-docker-demo"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "terraform"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
